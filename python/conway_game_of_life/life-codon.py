@@ -1,3 +1,5 @@
+import time
+
 class Point:
     x: int
     y: int
@@ -76,6 +78,7 @@ class Automata:
         self.set(p + Point(0, 2))
         self.set(p + Point(1, 2))
 
+start = time.perf_counter()
 
 obj = Automata(
     40,
@@ -86,8 +89,14 @@ obj = Automata(
 
 obj.add_glider(Point(0, 18))
 
+setup_time_elapsed_ms = (time.perf_counter() - start) * 1000.0
+start_simulation = time.perf_counter()
+
 for i in range(0, 10000):
     obj = obj.next()
+
+simulation_time_elapsed_ms = (time.perf_counter() - start_simulation) * 1000.0
+start_output = time.perf_counter()
 
 for y in range(0, obj.height):
     for x in range(0, obj.width):
@@ -96,3 +105,13 @@ for y in range(0, obj.height):
         else:
             print(".", end="")
     print()
+
+output_time_elapsed_ms = (time.perf_counter() - start_output) * 1000.0
+total_time_elapsed_ms = (time.perf_counter() - start) * 1000.0
+
+print('')
+print(f'setup      {setup_time_elapsed_ms:>10.2f} ms')
+print(f'simulation {simulation_time_elapsed_ms:>10.2f} ms')
+print(f'output     {output_time_elapsed_ms:>10.2f} ms')
+print(f'total      {total_time_elapsed_ms:>10.2f} ms')
+

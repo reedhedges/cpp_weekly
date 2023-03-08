@@ -2,27 +2,18 @@ import cppyy
 from array import array
 import time
 
+# This is like life-cppyy.py, except the creation of the initial Automata instance, 
+# the call to add_glider(), and the game run loop is all in one C++ function 
+# run_glider_demo_game(), rather than separate calls from Python.
+
 start = time.perf_counter()
 
 cppyy.include("life-cppyy.hpp")
 
-
-born = cppyy.gbl.std.vector[bool](
-    (False, False, False, True, False, False, False, False, False)
-)
-survives = cppyy.gbl.std.vector[bool](
-    (False, False, True, True, False, False, False, False, False)
-)
-
-obj = cppyy.gbl.Automata(40, 20, born, survives)
-
-obj.add_glider(cppyy.gbl.Automata.Point(0, 18))
-
 setup_time_elapsed_ms = (time.perf_counter() - start) * 1000.0
 start_simulation = time.perf_counter()
 
-for i in range(10000):
-    obj = obj.next()
+obj = cppyy.gbl.run_glider_demo_game();
 
 simulation_time_elapsed_ms = (time.perf_counter() - start_simulation) * 1000.0
 start_output = time.perf_counter()

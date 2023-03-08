@@ -101,3 +101,29 @@ struct Automata
     set(p + Point{ 1, 2 });
   }
 };
+
+Automata run_glider_demo_game() //size_t n, size_t w, size_t h)
+{
+  const size_t n = 10'000;
+  const size_t w = 40;
+  const size_t h = 20;
+  const Automata::index_t x = 0;
+  const Automata::index_t y = 18;
+  const std::array<bool, 9> born{ false, false, false, true, false, false, false, false, false }; 
+  const std::array<bool, 9> surv{ false, false, true, true, false, false, false, false, false };
+  auto a = Automata(w, h, born, surv);
+  a.add_glider(Automata::Point{x, y});
+  for(size_t i = 0; i < n; ++i)
+    a = a.next();
+  return a;
+}
+
+Automata run_demo_game(Automata a) // size_t n
+{
+  const size_t n = 10000;
+  for(size_t i = 0; i < n; ++i)
+    a = a.next();
+  return a;
+}
+
+

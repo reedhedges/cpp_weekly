@@ -2,6 +2,9 @@ import cppyy
 from array import array
 import time
 
+
+# This is like life-cppyy.py, but the game loop is in a C++ function rather than here in Python.
+
 start = time.perf_counter()
 
 cppyy.include("life-cppyy.hpp")
@@ -21,8 +24,7 @@ obj.add_glider(cppyy.gbl.Automata.Point(0, 18))
 setup_time_elapsed_ms = (time.perf_counter() - start) * 1000.0
 start_simulation = time.perf_counter()
 
-for i in range(10000):
-    obj = obj.next()
+obj = cppyy.gbl.run_demo_game(obj);
 
 simulation_time_elapsed_ms = (time.perf_counter() - start_simulation) * 1000.0
 start_output = time.perf_counter()
