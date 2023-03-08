@@ -1,0 +1,23 @@
+*.o
+*.pyc
+*.sw?
+checks.json
+
+life
+life_userparams
+life_debug
+life-codon
+
+conan.lock
+conanbuildinfo.*
+graph_info.json
+
+# Python venv, pip, codon installation detritus:
+bin
+build
+include
+larger_tests
+lib
+lib64
+install.sh
+pyvenv.cfg
