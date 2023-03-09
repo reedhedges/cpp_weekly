@@ -11,6 +11,7 @@ life-codon
 conan.lock
 conanbuildinfo.*
 graph_info.json
+conaninfo.txt
 
 # Python venv, pip, codon installation detritus:
 bin

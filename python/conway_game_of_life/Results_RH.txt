@@ -1,0 +1,126 @@
+
+Not rigorous, just experimenting.
+
+Time values shown are just representative after running it a few times,
+not an average or anything.
+
+clang 14.0.0, gcc 11.3.0, python 3.10.6, pypy 7.3.9 (with Python 3.8.13), codon 0.15.5, 
+cppyy 2.4.2 (cppyy-backend 1.14.10, cppyy-cling 6.27.1, cpycppyy 1.12.12).
+Intel i7 3.6GHz CPUs, Ubuntu 22.04.2, Linux 5.19.0. 
+
+
+life.cpp, Pure C++, clang++ -std=c++20 -O3:
+
+    setup            0.00 ms
+    simulation     993.04 ms
+    output           0.12 ms
+    total          993.16 ms
+
+
+
+life.cpp, Pure C++, clang++, no constexpr functions:
+
+    setup            0.00 ms
+    simulation     996.84 ms
+    output           0.05 ms
+    total          996.89 ms
+
+
+life.py, Pure C++, g++ -std=c++20 -O3:
+
+    Not tested (code needs to be hacked to avoid unsupported constexpr situations.) 
+
+life.cpp, Pure C++, g++ -std=c++20 -O3, no constexpr functions:
+
+    setup            0.00 ms
+    simulation     244.75 ms
+    output           0.04 ms
+    total          244.79 ms
+
+
+
+life.cpp, Pure C++, clang++, game parameters as program arguments:
+
+    setup            0.00 ms
+    simulation    1022.40 ms
+    output           0.07 ms
+    total         1022.47 ms
+
+
+
+life.cpp, Pure C++, g++, no constexpr, game params as program arguments:
+
+    setup            0.00 ms
+    simulation    2342.07 ms
+    output           0.07 ms
+    total         2342.13 ms
+
+
+
+life.py, Python3 (cpython):
+
+
+    setup            0.02 ms
+    simulation   53189.85 ms
+    output           0.78 ms
+    total        53190.66 ms
+
+
+life.py, pypy3:
+
+    setup            0.03 ms
+    simulation    4158.69 ms
+    output           6.38 ms
+    total         4165.13 ms
+
+
+life-codon.py, using Codon (-release -exe):
+
+    setup            0.01 ms
+    simulation    2435.31 ms
+    output           0.10 ms
+    total         2435.42 ms
+
+
+
+life-cppyy.py, uses cppyy, run with python3 3.10.6 installed in virtual env when installing cppyy:
+
+    setup          271.24 ms
+    simulation    1174.23 ms
+    output          15.44 ms
+    total         1460.92 ms
+
+
+
+life-cppyy-2.py, uses cppyy, include all the Automata code (header only), but call a C++ function to run the game loop:
+
+    setup          265.75 ms
+    simulation    1189.97 ms
+    output          13.86 ms
+    total         1469.58 ms
+
+
+life-cppyy-3.py, uses cppyy, include all the Automata code (header only), but justcall a C++ function to do setup and run the game loop:
+
+    setup          103.51 ms
+    simulation    1079.35 ms
+    output          20.26 ms
+    total         1203.13 ms
+
+
+
+life-cppyy-lib-run-demo-only.py, cppyy, but load Automata C++ code from a library, and call a C++ function to run the whole thing: 
+(i.e. a bit like the "Pure C++" examples, but we are invoking it from a Python program via cppyy. library built with g++ -O3)
+
+    setup           34.39 ms
+    simulation    2766.24 ms
+    total         2800.66 ms
+
+
+life-cppyy-lib-run-demo-only.py, cppyy, but build Automata C++ code as a library (Automata class with visibility("hidden")), and call the one public C++ function to run the whole thing: 
+(even more like just invoking the optimized "Pure C++" program, but from python. library built with g++ -O3)
+
+    setup           35.74 ms
+    simulation    1045.84 ms
+    total         1081.61 ms
+

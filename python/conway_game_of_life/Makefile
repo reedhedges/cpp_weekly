@@ -1,5 +1,5 @@
 
-ALL_TARGETS=life life_debug life_userparams
+ALL_TARGETS=life life_debug life_userparams 
 
 
 all: $(ALL_TARGETS)
