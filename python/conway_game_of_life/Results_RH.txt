@@ -6,7 +6,7 @@ not an average or anything.
 
 clang 14.0.0, gcc 11.3.0, python 3.10.6, pypy 7.3.9 (with Python 3.8.13), codon 0.15.5, 
 cppyy 2.4.2 (cppyy-backend 1.14.10, cppyy-cling 6.27.1, cpycppyy 1.12.12).
-Intel i7 3.6GHz CPUs, Ubuntu 22.04.2, Linux 5.19.0. 
+Intel i7 3.6GHz CPUs (64 bit), Ubuntu 22.04.2, Linux 5.19.0. 
 
 
 life.cpp, Pure C++, clang++ -std=c++20 -O3:
@@ -15,7 +15,8 @@ life.cpp, Pure C++, clang++ -std=c++20 -O3:
     simulation     993.04 ms
     output           0.12 ms
     total          993.16 ms
-
+  
+    Size of ELF binary: 156.456 KB
 
 
 life.cpp, Pure C++, clang++, no constexpr functions:
@@ -25,6 +26,7 @@ life.cpp, Pure C++, clang++, no constexpr functions:
     output           0.05 ms
     total          996.89 ms
 
+    Size of ELF binary: 156.584 KB
 
 life.py, Pure C++, g++ -std=c++20 -O3:
 
@@ -37,6 +39,7 @@ life.cpp, Pure C++, g++ -std=c++20 -O3, no constexpr functions:
     output           0.04 ms
     total          244.79 ms
 
+    Size of ELF binary: 156.208 KB
 
 
 life.cpp, Pure C++, clang++, game parameters as program arguments:
@@ -46,6 +49,7 @@ life.cpp, Pure C++, clang++, game parameters as program arguments:
     output           0.07 ms
     total         1022.47 ms
 
+    Size of ELF binary: 156.568 KB
 
 
 life.cpp, Pure C++, g++, no constexpr, game params as program arguments:
@@ -116,6 +120,7 @@ life-cppyy-lib-run-demo-only.py, cppyy, but load Automata C++ code from a librar
     simulation    2766.24 ms
     total         2800.66 ms
 
+    Size of library: 20K
 
 life-cppyy-lib-run-demo-only.py, cppyy, but build Automata C++ code as a library (Automata class with visibility("hidden")), and call the one public C++ function to run the whole thing: 
 (even more like just invoking the optimized "Pure C++" program, but from python. library built with g++ -O3)
@@ -124,3 +129,4 @@ life-cppyy-lib-run-demo-only.py, cppyy, but build Automata C++ code as a library
     simulation    1045.84 ms
     total         1081.61 ms
 
+    Size of library: 24K
