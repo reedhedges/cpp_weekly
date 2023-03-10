@@ -135,15 +135,19 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 {
 #ifdef USER_PARAMS
   assert(argc > 4);
-  size_t w = atol(argv[1]);
-  size_t h = atol(argv[2]);
-  Automata::index_t x = atol(argv[3]);
-  Automata::index_t y = atol(argv[4]);
+  long warg = atol(argv[1]);
+  long harg = atol(argv[2]);
+  long xarg = atol(argv[3]);
+  long yarg = atol(argv[4]);
+  assert(warg > 0);
+  assert(harg > 0);
+  assert(xarg >= 0);
+  assert(yarg >= 0);
+  size_t w = (size_t)warg;
+  size_t h = (size_t)harg;
+  Automata::index_t x = (Automata::index_t)xarg;
+  Automata::index_t y = (Automata::index_t)yarg;
   fmt::print("Using parameters from command line: game size ({} x {}), glider start position ({}, {}).\n", w, h, x, y);
-  assert(w > 0);
-  assert(h > 0);
-  assert(x >= 0);
-  assert(y >= 0);
 #else
   const size_t w = 40;
   const size_t h = 20;
