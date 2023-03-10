@@ -1,5 +1,5 @@
 
-ALL_TARGETS=life life_debug life_userparams 
+ALL_TARGETS=life life_debug life_userparams life_noconstexpr life_userparams_noconstexpr
 
 
 all: $(ALL_TARGETS)
@@ -14,6 +14,8 @@ FMT_CXXFLAGS=$(CONAN_INCLUDE_DIRS_FMT:%=-I%) $(CONAN_DEFINES_FMT:%=-D%) $(CONAN_
 FMT_LFLAGS=$(CONAN_LIB_DIRS_FMT:%=-L%) $(CONAN_LIBS_FMT:%=-l%) $(CONAN_SYSTEM_LIBS_FMT:%=-l%)
 BENCH_CXXFLAGS=$(CONAN_INCLUDE_DIRS_BENCHMARK:%=-I%) $(CONAN_DEFINES_BENCHMARK:%=-D%) $(CONAN_CXXFLAGS_BENCHMARK)
 BENCH_LFLAGS=$(CONAN_LIB_DIRS_BENCHMARK:%=-L%) $(CONAN_LIBS_BENCHMARK:%=-l%) $(CONAN_SYSTEM_LIBS_BENCHMARK:%=-l%)
+CATCH2_CXXFLAGS=$(CONAN_INCLUDE_DIRS_CATCH2:%=-I%) $(CONAN_DEFINES_CATCH2:%=-D%) $(CONAN_CXXFLAGS_CATCH2)
+CATCH2_LFLAGS=$(CONAN_LIB_DIRS_CATCH2:%=-L%) $(CONAN_LIBS_CATCH2:%=-l%) $(CONAN_SYSTEM_LIBS_CATCH2:%=-l%)
 
 #read_all_conan_args=$(shell cat conanbuildinfo.args) # alternative, from conan compiler args generator
 
@@ -26,9 +28,11 @@ info:
 	@echo FMT_LFLAGS=$(FMT_LFLAGS)
 	@echo BENCH_CXXFLAGS=$(BENCH_CXXFLAGS)
 	@echo BENCH_LFLAGS=$(BENCH_LFLAGS)
+	@echo CATCH2_CXXFLAGS=$(CATCH2_CXXFLAGS)
+	@echo CATCH2_LFLAGS=$(CATCH2_LFLAGS)
 
 help:
-	@echo Targets are: all info help conan clean distclean conan-clean
+	@echo Targets are: all info help conan clean distclean conan-clean $(ALL_TARGETS)
 
 conanbuildinfo.args conanbuildinfo.mak conanbuildinfo.txt &: conanfile.txt
 	conan install conanfile.txt && touch $@    # conan doesn't update file timestamp if no new contents were generated (even if conanfile.txt is newer)
@@ -43,6 +47,12 @@ conan-clean:
 
 life_userparams: life.cpp
 	$(CXX) -O3 -std=c++20 -Wall -Wextra -DUSER_PARAMS $(CXXFLAGS) $(FMT_CXXFLAGS) -o $@ $< $(FMT_LFLAGS)
+
+life_noconstexpr: life.cpp
+	$(CXX) -O3 -std=c++20 -Wall -Wextra -DNO_CONSTEXPR $(CXXFLAGS) $(FMT_CXXFLAGS) -o $@ $< $(FMT_LFLAGS)
+
+life_userparams_noconstexpr: life.cpp
+	$(CXX) -O3 -std=c++20 -Wall -Wextra -DUSER_PARAMS -DNO_CONSTEXPR $(CXXFLAGS) $(FMT_CXXFLAGS) -o $@ $< $(FMT_LFLAGS)
 
 %_debug: %.cpp
 	$(CXX) -g -Og -std=c++20 -Wall -Wextra $(CXXFLAGS) $(FMT_CXXFLAGS) -o $@ $< $(FMT_LFLAGS)
